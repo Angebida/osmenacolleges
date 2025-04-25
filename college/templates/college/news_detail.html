@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ news.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>{{ news.title }}</h1>
+        <div>
+            <a href="{% url 'news_update' news.pk %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'news_delete' news.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            {% if news.image %}
+            <img src="{{ news.image.url }}" class="img-fluid mb-4" alt="{{ news.title }}">
+            {% endif %}
+            
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p class="card-text">{{ news.content }}</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">
+                        Published on {{ news.publish_date }} by {{ news.author }}
+                        {% if news.is_featured %}
+                        <span class="badge bg-warning ms-2">Featured</span>
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Recent News</h5>
+                    <div class="list-group">
+                        {% for recent_news in news_list|slice:":5" %}
+                        <a href="{% url 'news_detail' recent_news.pk %}" 
+                           class="list-group-item list-group-item-action">
+                           {{ recent_news.title }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Welcome to Osmeña Colleges{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="scroll-section active">
+    <div class="container">
+        <div class="content">
+            <h1 class="display-3 fw-bold mb-4">Empowering Through Education</h1>
+            <p class="lead mb-5">Discover a world of possibilities at Osmeña Colleges, where academic excellence meets innovative research and transformative learning experiences.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'apply' %}" class="btn btn-primary btn-lg">Apply Now</a>
+                <a href="{% url 'program_list' %}" class="btn btn-outline-light btn-lg">Explore Programs</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Research Section -->
+<section id="research" class="scroll-section">
+    <div class="container">
+        <div class="content text-white">
+            <h2 class="display-4">Research Excellence</h2>
+            <p class="lead">Leading breakthrough research in various fields that shape the future of education and innovation.</p>
+            <div class="row mt-4">
+                <!-- Featured Research Items -->
+                {% for department in departments|slice:":3" %}
+                <div class="col-md-4">
+                    <div class="card bg-transparent text-white border-light">
+                        <div class="card-body">
+                            <h4>{{ department.name }}</h4>
+                            <p>{{ department.description|truncatewords:30 }}</p>
+                            <a href="{% url 'department_detail' department.pk %}" class="btn btn-outline-light">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Academic Programs Section -->
+<section id="programs" class="scroll-section">
+    <div class="container">
+        <div class="content text-white">
+            <h2 class="display-4">Academic Excellence</h2>
+            <p class="lead">Our diverse range of programs is designed to prepare you for success in your chosen field.</p>
+            <div class="row mt-4">
+                <!-- Program Categories -->
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-transparent text-white border-light h-100">
+                        <div class="card-body">
+                            <h4>Undergraduate Programs</h4>
+                            <p>Comprehensive bachelor's degrees across multiple disciplines.</p>
+                            <a href="{% url 'program_list' %}?type=bachelor" class="btn btn-outline-light">View Programs</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-transparent text-white border-light h-100">
+                        <div class="card-body">
+                            <h4>Graduate Programs</h4>
+                            <p>Advanced degrees to further your academic and professional goals.</p>
+                            <a href="{% url 'program_list' %}?type=master" class="btn btn-outline-light">View Programs</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card bg-transparent text-white border-light h-100">
+                        <div class="card-body">
+                            <h4>Professional Certificates</h4>
+                            <p>Specialized training and certification programs.</p>
+                            <a href="{% url 'program_list' %}?type=certificate" class="btn btn-outline-light">View Programs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Innovation Section -->
+<section id="innovation" class="scroll-section">
+    <div class="container">
+        <div class="content text-white">
+            <h2 class="display-4">Innovation Hub</h2>
+            <p class="lead">Where ideas transform into solutions that impact the world.</p>
+            <div class="row mt-4">
+                {% for news in featured_news %}
+                <div class="col-md-4">
+                    <div class="card bg-transparent text-white border-light">
+                        <div class="card-body">
+                            <h4>{{ news.title }}</h4>
+                            <p>{{ news.content|truncatewords:20 }}</p>
+                            <a href="{% url 'news_detail' news.pk %}" class="btn btn-outline-light">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Events Section -->
+<section class="scroll-section">
+    <div class="container">
+        <div class="content">
+            <h2 class="display-4">Upcoming Events</h2>
+            <!-- Events content -->
+            {% include "college/includes/events_grid.html" %}
+        </div>
+    </div>
+</section>
+{% endblock %}

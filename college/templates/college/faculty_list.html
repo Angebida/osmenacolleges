@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Faculty Members{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Faculty Directory</h1>
+        {% if user.is_staff %}
+        <a href="{% url 'faculty_create' %}" class="btn btn-success">Add Faculty</a>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        {% for faculty_member in faculty %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    {% if faculty_member.profile_picture %}
+                    <img src="{{ faculty_member.profile_picture.url }}" 
+                         class="faculty-img mb-3" 
+                         alt="{{ faculty_member.first_name }} {{ faculty_member.last_name }}">
+                    {% endif %}
+                    <h5 class="card-title">{{ faculty_member.first_name }} {{ faculty_member.last_name }}</h5>
+                    <p class="card-text">
+                        <strong>{{ faculty_member.get_rank_display }}</strong><br>
+                        {{ faculty_member.department.name }}
+                    </p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="{% url 'faculty_detail' faculty_member.pk %}" class="btn btn-sm btn-primary">View Profile</a>
+                        {% if user.is_staff %}
+                        <a href="{% url 'faculty_update' faculty_member.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'faculty_delete' faculty_member.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No faculty members found.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ faculty.first_name }} {{ faculty.last_name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>{{ faculty.first_name }} {{ faculty.last_name }}</h1>
+        <div>
+            <a href="{% url 'faculty_update' faculty.pk %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'faculty_delete' faculty.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 text-center">
+            {% if faculty.profile_picture %}
+            <img src="{{ faculty.profile_picture.url }}" 
+                 class="faculty-img mb-4" 
+                 alt="{{ faculty.first_name }} {{ faculty.last_name }}">
+            {% endif %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Contact Information</h5>
+                    <p class="mb-1"><i class="bi bi-envelope"></i> {{ faculty.email }}</p>
+                    <p class="mb-1"><i class="bi bi-telephone"></i> {{ faculty.phone }}</p>
+                    <p><i class="bi bi-geo-alt"></i> {{ faculty.office_location }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Academic Profile</h3>
+                    <p><strong>Department:</strong> {{ faculty.department.name }}</p>
+                    <p><strong>Rank:</strong> {{ faculty.get_rank_display }}</p>
+                    <p><strong>Specialization:</strong> {{ faculty.specialization }}</p>
+                    <p><strong>Status:</strong> {% if faculty.is_active %}Active{% else %}Inactive{% endif %}</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Biography</h3>
+                    <p class="card-text">[Biography content would go here]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

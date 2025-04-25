@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ department.name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-4">
+            {% if department.image %}
+            <img src="{{ department.image.url }}" alt="{{ department.name }}" class="img-fluid rounded mb-3">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h1>{{ department.name }}</h1>
+            <div class="text-muted mb-3">
+                <p><i class="bi bi-person"></i> Head: {{ department.head_of_department }}</p>
+                <p><i class="bi bi-calendar"></i> Established: {{ department.established_date|date:"F j, Y" }}</p>
+                <p><i class="bi bi-envelope"></i> {{ department.email }}</p>
+                <p><i class="bi bi-telephone"></i> {{ department.contact_number }}</p>
+            </div>
+            <p class="lead">{{ department.description }}</p>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="mb-4">Programs</h2>
+            <div class="row">
+                {% for program in programs %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ program.name }}</h5>
+                            <p class="card-text text-muted">
+                                <i class="bi bi-mortarboard"></i> {{ program.get_degree_type_display }}<br>
+                                <i class="bi bi-clock"></i> {{ program.duration_years }} Year{% if program.duration_years > 1 %}s{% endif %}<br>
+                                <i class="bi bi-currency-dollar"></i> ₱{{ program.tuition_fee|floatformat:2 }} per semester
+                            </p>
+                            <p class="card-text">{{ program.description|truncatewords:30 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'program_detail' program.pk %}" class="btn btn-primary">View Details</a>
+                                {% if not program.is_active %}
+                                <span class="badge bg-warning">Inactive</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">No programs found for this department.</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Faculty Members</h2>
+            <div class="row">
+                {% for member in faculty %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            {% if member.profile_picture %}
+                            <img src="{{ member.profile_picture.url }}" alt="{{ member.first_name }} {{ member.last_name }}" 
+                                 class="faculty-img mb-3">
+                            {% else %}
+                            <img src="https://via.placeholder.com/150" alt="Default Profile" 
+                                 class="faculty-img mb-3">
+                            {% endif %}
+                            <h5 class="card-title mb-0">{{ member.first_name }} {{ member.last_name }}</h5>
+                            <p class="text-muted">{{ member.get_rank_display }}</p>
+                            <p class="card-text">
+                                <i class="bi bi-book"></i> {{ member.specialization }}<br>
+                                <i class="bi bi-envelope"></i> {{ member.email }}<br>
+                                <i class="bi bi-telephone"></i> {{ member.phone }}
+                            </p>
+                            <a href="{% url 'faculty_detail' member.pk %}" class="btn btn-primary">View Profile</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">No faculty members found for this department.</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

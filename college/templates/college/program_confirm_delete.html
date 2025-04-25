@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Program{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Delete Program</h1>
+    
+    <div class="alert alert-danger">
+        <p>Are you sure you want to delete the program "{{ program.name }}"?</p>
+        <p class="mb-0">This action will permanently remove all associated data.</p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+        <a href="{% url 'program_detail' program.pk %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

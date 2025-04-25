@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-7q#h*(5^mhu+hmdv2qj_yx)cyqdu*^xjdi2xl4*a13$u^8%qqd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['yesmaam.pythonanywhere.com']
 
 
 # Application definition
@@ -115,13 +115,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-# Static files (CSS, JavaScript, Images)
+STATIC_ROOT = '/home/yesmaam/osmenacolleges/static'
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Media files
+MEDIA_ROOT = '/home/yesmaam/osmenacolleges/media'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 # Auth settings
 LOGIN_URL = 'login'
